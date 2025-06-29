@@ -9,8 +9,8 @@ body {
 
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(135deg, #f7dc6f 0%, #b8860b 50%, #f7dc6f 100%);
-  color: white;
+  background: white;
+  color: var(--chinese-gold);
   border-radius: 15px;
   margin: 20px 0;
   position: relative;
@@ -41,6 +41,67 @@ body {
   transition: transform 0.1s ease-out;
   pointer-events: none;
   z-index: 1;
+}
+
+/* Mountains at bottom of hero section */
+.hero-section::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: 
+    /* Back mountains */ linear-gradient(
+      45deg,
+      transparent 40%,
+      #8b4513 40%,
+      #8b4513 50%,
+      transparent 50%
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 40%,
+      #8b4513 40%,
+      #8b4513 50%,
+      transparent 50%
+    ),
+    /* Middle mountains */
+      linear-gradient(
+        45deg,
+        transparent 50%,
+        #a0522d 50%,
+        #a0522d 60%,
+        transparent 60%
+      ),
+    linear-gradient(
+      -45deg,
+      transparent 50%,
+      #a0522d 50%,
+      #a0522d 60%,
+      transparent 60%
+    ),
+    /* Front mountains */
+      linear-gradient(
+        45deg,
+        transparent 60%,
+        #cd853f 60%,
+        #cd853f 70%,
+        transparent 70%
+      ),
+    linear-gradient(
+      -45deg,
+      transparent 60%,
+      #cd853f 60%,
+      #cd853f 70%,
+      transparent 70%
+    );
+  background-size: 300px 80px, 300px 80px, 200px 80px, 200px 80px, 150px 80px,
+    150px 80px;
+  background-position: 0% 100%, 33% 100%, 66% 100%, 0% 100%, 33% 100%, 66% 100%;
+  background-repeat: repeat-x;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .hero-section::after {

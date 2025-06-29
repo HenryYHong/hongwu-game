@@ -3,18 +3,17 @@ Home{% endblock %} {% block extra_css %}
 <style>
   .hero-cloud {
     position: absolute;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(0, 0, 0, 0.3);
     font-size: 4rem;
     z-index: 1;
     pointer-events: none;
-    animation: floatAcross 25s linear infinite;
+    animation: floatAcross 40s linear infinite;
     transform: scaleX(-1);
   }
 
   .cloud-1 {
     top: 15%;
     left: -200px;
-    right: auto;
     animation-delay: 0s;
     font-size: 3.5rem;
   }
@@ -22,56 +21,49 @@ Home{% endblock %} {% block extra_css %}
   .cloud-2 {
     top: 35%;
     left: -250px;
-    right: auto;
-    animation-delay: 2s;
+    animation-delay: 5s;
     font-size: 5rem;
   }
 
   .cloud-3 {
     top: 55%;
     left: -180px;
-    right: auto;
-    animation-delay: 4s;
+    animation-delay: 10s;
     font-size: 4.2rem;
   }
 
   .cloud-4 {
     top: 25%;
     left: -300px;
-    right: auto;
-    animation-delay: 6s;
+    animation-delay: 15s;
     font-size: 4.5rem;
   }
 
   .cloud-5 {
     top: 65%;
     left: -220px;
-    right: auto;
-    animation-delay: 8s;
+    animation-delay: 20s;
     font-size: 3.8rem;
   }
 
   .cloud-6 {
     top: 45%;
     left: -280px;
-    right: auto;
-    animation-delay: 10s;
+    animation-delay: 25s;
     font-size: 4.8rem;
   }
 
   .cloud-7 {
     top: 75%;
     left: -150px;
-    right: auto;
-    animation-delay: 12s;
+    animation-delay: 30s;
     font-size: 3.2rem;
   }
 
   .cloud-8 {
     top: 20%;
     left: -350px;
-    right: auto;
-    animation-delay: 14s;
+    animation-delay: 35s;
     font-size: 4rem;
   }
 
@@ -94,7 +86,7 @@ Home{% endblock %} {% block extra_css %}
 
   .hero-section {
     position: relative;
-    overflow: hidden;
+    padding: 40px 0;
   }
 
   .hero-section .container {
@@ -103,7 +95,7 @@ Home{% endblock %} {% block extra_css %}
   }
 </style>
 {% endblock %} {% block content %}
-<div class="hero-section text-center py-5">
+<div class="hero-section text-center">
   <!-- Animated Clouds -->
   <div class="hero-cloud cloud-1">☁</div>
   <div class="hero-cloud cloud-2">☁</div>
@@ -121,7 +113,7 @@ Home{% endblock %} {% block extra_css %}
           <i class="fas fa-dragon me-3" style="color: #c41e3a"></i>Hong Wu
           (红五)
         </h1>
-        <p class="lead mb-4">
+        <p class="lead mb-4" style="color: #b8860b">
           <span class="lang-en"
             >The classic Chinese card game where the Red Five (5♥) reigns
             supreme</span

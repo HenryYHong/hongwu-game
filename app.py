@@ -34,6 +34,11 @@ def get_game_state_dict(game_id):
     if game_data.get('current_play'):
         current_play = game_data['current_play']
     
+    # Include all players' hands if in AI mode (no human player)
+    all_hands = None
+    if not game.players[0].is_human:
+        all_hands = {p.id: p.hand for p in game.players}
+    
     return {
         'players': [{'id': p.id, 'hand_size': len(p.hand), 'is_human': p.is_human} for p in game.players],
         'current_player': game.curr,
@@ -42,6 +47,7 @@ def get_game_state_dict(game_id):
         'game_state': game_data.get('game_state', 'playing'),
         'last_action': game_data.get('last_action'),
         'hand': hand,
+        'all_hands': all_hands,
         'current_play': current_play,
         'passes': game_data.get('passes', 0)
     }

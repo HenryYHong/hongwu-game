@@ -203,6 +203,27 @@ endblock %} {% block extra_css %}
   .form-check-input {
     margin-right: 0;
   }
+
+  #game-over {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #game-over .card {
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    max-width: 500px;
+    width: 100%;
+  }
 </style>
 {% endblock %} {% block content %}
 <div class="full-width-section">
@@ -211,16 +232,30 @@ endblock %} {% block extra_css %}
     <div class="col-12">
       <div class="card setup-card mb-4">
         <div class="card-body">
-          <h3>Start a New Game</h3>
+          <h3>
+            <span class="lang-en">Start a New Game</span>
+            <span class="lang-zh" style="display: none">开始新游戏</span>
+          </h3>
           <div class="row">
             <div class="col-md-6">
               <label for="playerCount" class="form-label">
-                <i class="fas fa-users me-2"></i>Number of Players:
+                <i class="fas fa-users me-2"></i>
+                <span class="lang-en">Number of Players:</span>
+                <span class="lang-zh" style="display: none">玩家数量：</span>
               </label>
               <select class="form-select" id="playerCount">
-                <option value="3">3 Players</option>
-                <option value="4" selected>4 Players</option>
-                <option value="5">5 Players</option>
+                <option value="3">
+                  <span class="lang-en">3 Players</span>
+                  <span class="lang-zh" style="display: none">3 玩家</span>
+                </option>
+                <option value="4" selected>
+                  <span class="lang-en">4 Players</span>
+                  <span class="lang-zh" style="display: none">4 玩家</span>
+                </option>
+                <option value="5">
+                  <span class="lang-en">5 Players</span>
+                  <span class="lang-zh" style="display: none">5 玩家</span>
+                </option>
               </select>
             </div>
             <div class="col-md-6">
@@ -232,14 +267,20 @@ endblock %} {% block extra_css %}
                   checked
                 />
                 <label class="form-check-label" for="humanToggle">
-                  <i class="fas fa-user me-2"></i>Play as Human (Player 0)
+                  <i class="fas fa-user me-2"></i>
+                  <span class="lang-en">Play as Human (Player 0)</span>
+                  <span class="lang-zh" style="display: none"
+                    >作为人类玩家 (玩家 0)</span
+                  >
                 </label>
               </div>
             </div>
           </div>
           <div class="text-center mt-4">
             <button class="btn btn-start btn-lg" onclick="startGame()">
-              <i class="fas fa-rocket me-2"></i>Start Game
+              <i class="fas fa-rocket me-2"></i>
+              <span class="lang-en">Start Game</span>
+              <span class="lang-zh" style="display: none">开始游戏</span>
             </button>
           </div>
         </div>
@@ -254,19 +295,30 @@ endblock %} {% block extra_css %}
     <div class="col-12">
       <div class="game-container">
         <div id="game-interface" style="display: none">
-          <div class="game-status" id="game-status">Game in progress...</div>
+          <div class="game-status" id="game-status">
+            <span class="lang-en">Game in progress...</span>
+            <span class="lang-zh" style="display: none">游戏进行中...</span>
+          </div>
 
           <!-- Other Players -->
           <div id="other-players"></div>
 
           <!-- Play Area -->
           <div class="play-area" id="play-area">
-            <div class="text-white">Play area - cards will appear here</div>
+            <div class="text-white">
+              <span class="lang-en">Play area - cards will appear here</span>
+              <span class="lang-zh" style="display: none"
+                >游戏区域 - 卡牌将在此显示</span
+              >
+            </div>
           </div>
 
           <!-- Current Player's Hand -->
           <div class="player-area" id="current-player">
-            <h5 class="player-info">Your Hand:</h5>
+            <h5 class="player-info">
+              <span class="lang-en">Your Hand:</span>
+              <span class="lang-zh" style="display: none">你的手牌：</span>
+            </h5>
             <div id="player-hand"></div>
           </div>
 
@@ -277,14 +329,18 @@ endblock %} {% block extra_css %}
               onclick="playCards()"
               id="play-btn"
             >
-              <i class="fas fa-play me-2"></i>Play
+              <i class="fas fa-play me-2"></i>
+              <span class="lang-en">Play</span>
+              <span class="lang-zh" style="display: none">出牌</span>
             </button>
             <button
               class="btn btn-warning btn-game"
               onclick="passTurn()"
               id="pass-btn"
             >
-              <i class="fas fa-times me-2"></i>Pass
+              <i class="fas fa-times me-2"></i>
+              <span class="lang-en">Pass</span>
+              <span class="lang-zh" style="display: none">过牌</span>
             </button>
           </div>
 
@@ -292,19 +348,36 @@ endblock %} {% block extra_css %}
           <div class="game-info" id="game-info">
             <div class="row">
               <div class="col-md-6">
-                <strong>Current Player:</strong>
+                <strong>
+                  <span class="lang-en">Current Player:</span>
+                  <span class="lang-zh" style="display: none">当前玩家：</span>
+                </strong>
                 <span id="current-player-id">-</span>
               </div>
               <div class="col-md-6">
-                <strong>Deck Size:</strong> <span id="deck-count">0</span> cards
+                <strong>
+                  <span class="lang-en">Deck Size:</span>
+                  <span class="lang-zh" style="display: none">牌堆大小：</span>
+                </strong>
+                <span id="deck-count">0</span>
+                <span class="lang-en"> cards</span>
+                <span class="lang-zh" style="display: none"> 张牌</span>
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
-                <strong>Passes:</strong> <span id="passes-count">0</span>
+                <strong>
+                  <span class="lang-en">Passes:</span>
+                  <span class="lang-zh" style="display: none">过牌次数：</span>
+                </strong>
+                <span id="passes-count">0</span>
               </div>
               <div class="col-md-6">
-                <strong>Game State:</strong> <span id="game-state">-</span>
+                <strong>
+                  <span class="lang-en">Game State:</span>
+                  <span class="lang-zh" style="display: none">游戏状态：</span>
+                </strong>
+                <span id="game-state">-</span>
               </div>
             </div>
           </div>
@@ -312,12 +385,36 @@ endblock %} {% block extra_css %}
 
         <div id="game-over" style="display: none">
           <div class="text-center">
-            <h2 class="text-white mb-4">Game Over!</h2>
+            <h2
+              class="text-white mb-4"
+              style="
+                font-size: 3rem;
+                font-weight: bold;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+              "
+            >
+              <span class="lang-en">Game Over!</span>
+              <span class="lang-zh" style="display: none">游戏结束！</span>
+            </h2>
             <div class="card">
               <div class="card-body">
-                <h4 id="winner-text">Player X wins!</h4>
-                <button class="btn btn-danger btn-lg" onclick="resetGame()">
-                  <i class="fas fa-redo me-2"></i>Play Again
+                <h4
+                  id="winner-text"
+                  style="font-size: 1.5rem; margin-bottom: 2rem"
+                >
+                  <span class="lang-en">Player X wins!</span>
+                  <span class="lang-zh" style="display: none"
+                    >玩家 X 获胜！</span
+                  >
+                </h4>
+                <button
+                  class="btn btn-danger btn-lg"
+                  onclick="resetGame()"
+                  style="font-size: 1.2rem; padding: 15px 30px"
+                >
+                  <i class="fas fa-redo me-2"></i>
+                  <span class="lang-en">Play Again</span>
+                  <span class="lang-zh" style="display: none">再玩一次</span>
                 </button>
               </div>
             </div>
@@ -359,6 +456,9 @@ endblock %} {% block extra_css %}
           startGameSection.style.display = "none";
         }
 
+        // Hide the game over section
+        document.getElementById("game-over").style.display = "none";
+
         // Show the game interface
         document.getElementById("game-interface").style.display = "block";
         updateGameState(data.game_state);
@@ -385,6 +485,9 @@ endblock %} {% block extra_css %}
   function updateGameState(gameState) {
     console.log("Updating game state:", gameState);
 
+    // Store current game state globally for access by other functions
+    window.currentGameState = gameState;
+
     // Update game info
     document.getElementById("current-player-id").textContent =
       gameState.current_player;
@@ -395,12 +498,20 @@ endblock %} {% block extra_css %}
 
     // Update game status to show whose turn it is
     let statusText = "Game in progress...";
+    let statusTextZh = "游戏进行中...";
     if (gameState.current_player === 0) {
       statusText = "Your turn!";
+      statusTextZh = "你的回合！";
     } else {
       statusText = `Player ${gameState.current_player}'s turn`;
+      statusTextZh = `玩家 ${gameState.current_player} 的回合`;
     }
-    document.getElementById("game-status").textContent = statusText;
+
+    const gameStatusElement = document.getElementById("game-status");
+    gameStatusElement.innerHTML = `
+      <span class="lang-en">${statusText}</span>
+      <span class="lang-zh" style="display: none">${statusTextZh}</span>
+    `;
 
     // Update other players
     updateOtherPlayers(gameState.players, gameState.current_player);
@@ -408,20 +519,33 @@ endblock %} {% block extra_css %}
     // Update play area with current play
     updatePlayArea(gameState.current_play, gameState.last_action);
 
-    // Show hand if present and player is human
+    // Show hand if present and player is human, or if in AI mode show first player's hand
     if (gameState.hand) {
       displayHand(gameState.hand);
+    } else if (gameState.all_hands && gameState.all_hands[0]) {
+      // In AI mode, show first player's hand even though they're not human
+      displayHand(gameState.all_hands[0]);
     }
 
     // Check for game end
     if (gameState.winner !== null) {
-      document.getElementById("game-controls").innerHTML = `
-        <div class="alert alert-success">
-          <h4>Game Over!</h4>
-          <p>Player ${gameState.winner} wins!</p>
-          <button class="btn btn-primary" onclick="resetGame()">New Game</button>
-        </div>
+      // Show the game over section
+      document.getElementById("game-over").style.display = "block";
+      document.getElementById("winner-text").innerHTML = `
+        <span class="lang-en">Player ${gameState.winner} wins!</span>
+        <span class="lang-zh" style="display: none">玩家 ${gameState.winner} 获胜！</span>
       `;
+
+      // Hide the game interface
+      document.getElementById("game-interface").style.display = "none";
+    } else {
+      // Hide game over section if game is not finished
+      document.getElementById("game-over").style.display = "none";
+
+      // Show game interface if it's not already shown
+      if (document.getElementById("game-interface").style.display === "none") {
+        document.getElementById("game-interface").style.display = "block";
+      }
     }
   }
 
@@ -437,18 +561,31 @@ endblock %} {% block extra_css %}
         index === currentPlayer ? "current-player" : ""
       }`;
 
-      // Create card backs
-      const cardBacks = [];
-      for (let i = 0; i < player.hand_size; i++) {
-        cardBacks.push('<div class="card card-back"></div>');
+      let cardsHtml = "";
+
+      // Check if we have all hands (AI mode)
+      if (
+        window.currentGameState &&
+        window.currentGameState.all_hands &&
+        window.currentGameState.all_hands[player.id]
+      ) {
+        // Show actual cards in AI mode
+        const playerHand = window.currentGameState.all_hands[player.id];
+        cardsHtml = playerHand.map((card) => createCardElement(card)).join("");
+      } else {
+        // Show card backs in human mode
+        for (let i = 0; i < player.hand_size; i++) {
+          cardsHtml += '<div class="card card-back"></div>';
+        }
       }
 
       playerDiv.innerHTML = `
-      <h6 class="player-info">Player ${player.id} (${
-        player.hand_size
-      } cards)</h6>
+      <h6 class="player-info">
+        <span class="lang-en">Player ${player.id} (${player.hand_size} cards)</span>
+        <span class="lang-zh" style="display: none">玩家 ${player.id} (${player.hand_size} 张牌)</span>
+      </h6>
       <div class="card-back-container">
-        ${cardBacks.join("")}
+        ${cardsHtml}
       </div>
     `;
       container.appendChild(playerDiv);
@@ -459,7 +596,12 @@ endblock %} {% block extra_css %}
     const playArea = document.getElementById("play-area");
 
     if (!currentPlay && !lastAction) {
-      playArea.innerHTML = '<div class="text-white">No cards played yet</div>';
+      playArea.innerHTML = `
+        <div class="text-white">
+          <span class="lang-en">No cards played yet</span>
+          <span class="lang-zh" style="display: none">还没有出牌</span>
+        </div>
+      `;
       return;
     }
 
@@ -479,7 +621,10 @@ endblock %} {% block extra_css %}
         .map((card) => createCardElement(card))
         .join("");
       playArea.innerHTML = `
-        <div class="text-white mb-2">Current highest play:</div>
+        <div class="text-white mb-2">
+          <span class="lang-en">Current highest play:</span>
+          <span class="lang-zh" style="display: none">当前最高出牌：</span>
+        </div>
         <div>${cardsHtml}</div>
       `;
       return;
@@ -490,7 +635,9 @@ endblock %} {% block extra_css %}
       if (lastAction.action === "pass") {
         playArea.innerHTML = `
           <div class="text-white mb-2" style="font-size: 1.1em; color: #ffc107;">
-            <i class="fas fa-times-circle me-2"></i>Player ${lastAction.player_id} passed
+            <i class="fas fa-times-circle me-2"></i>
+            <span class="lang-en">Player ${lastAction.player_id} passed</span>
+            <span class="lang-zh" style="display: none">玩家 ${lastAction.player_id} 过牌</span>
           </div>
         `;
       } else if (lastAction.cards) {
@@ -498,7 +645,10 @@ endblock %} {% block extra_css %}
           .map((card) => createCardElement(card))
           .join("");
         playArea.innerHTML = `
-        <div class="text-white mb-2">Player ${lastAction.player_id} played:</div>
+        <div class="text-white mb-2">
+          <span class="lang-en">Player ${lastAction.player_id} played:</span>
+          <span class="lang-zh" style="display: none">玩家 ${lastAction.player_id} 出牌：</span>
+        </div>
         <div class="ai-play">${cardsHtml}</div>
       `;
       }
@@ -721,8 +871,12 @@ endblock %} {% block extra_css %}
   function displayHand(hand) {
     const handContainer = document.getElementById("player-hand");
     if (!hand || hand.length === 0) {
-      handContainer.innerHTML =
-        '<div class="text-muted">No cards in hand</div>';
+      handContainer.innerHTML = `
+        <div class="text-muted">
+          <span class="lang-en">No cards in hand</span>
+          <span class="lang-zh" style="display: none">手牌为空</span>
+        </div>
+      `;
       return;
     }
 

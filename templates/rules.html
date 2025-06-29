@@ -1,0 +1,1050 @@
+{% extends "base.html" %} {% block title %}Game Rules - Hong Wu{% endblock %} {%
+block extra_css %}
+<style>
+  .rules-section {
+    background: linear-gradient(135deg, var(--chinese-red) 0%, #a01830 100%);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px 0;
+    color: white;
+    border: 3px solid var(--chinese-gold);
+  }
+
+  .rule-card {
+    background: linear-gradient(135deg, #fff 0%, var(--chinese-paper) 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 8px 25px rgba(196, 30, 58, 0.15);
+    border: 2px solid var(--chinese-gold);
+    border-left: 5px solid var(--chinese-red);
+  }
+
+  .card-hierarchy-table {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+    border: 2px solid var(--chinese-gold);
+  }
+
+  .card-example {
+    display: inline-block;
+    width: 50px;
+    height: 70px;
+    background: white;
+    border: 2px solid var(--chinese-gold);
+    border-radius: 8px;
+    margin: 2px;
+    text-align: center;
+    line-height: 70px;
+    font-weight: bold;
+    font-size: 0.9em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-example.hearts {
+    color: var(--chinese-red);
+  }
+  .card-example.diamonds {
+    color: var(--chinese-red);
+  }
+  .card-example.clubs {
+    color: var(--chinese-ink);
+  }
+  .card-example.spades {
+    color: var(--chinese-ink);
+  }
+
+  .combo-example {
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    border-left: 4px solid var(--chinese-gold);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+  }
+
+  .strategy-tip {
+    background: rgba(196, 30, 58, 0.1);
+    border: 2px solid var(--chinese-red);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px 0;
+  }
+
+  .strategy-tip h6 {
+    color: var(--chinese-red);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .quick-reference {
+    background: linear-gradient(
+      135deg,
+      rgba(74, 124, 89, 0.1) 0%,
+      rgba(74, 124, 89, 0.05) 100%
+    );
+    border: 2px solid var(--chinese-jade);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+
+  .quick-reference h5 {
+    color: var(--chinese-jade);
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  .rule-number {
+    background: linear-gradient(135deg, var(--chinese-red) 0%, #a01830 100%);
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 15px;
+    border: 2px solid var(--chinese-gold);
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="container-fluid">
+  <!-- Header Section -->
+  <div class="rules-section text-center">
+    <h1 class="display-4 fw-bold mb-4">
+      <i class="fas fa-dragon me-3"></i>
+      <span class="lang-en">Complete Game Rules</span>
+      <span class="lang-zh" style="display: none">完整游戏规则</span>
+    </h1>
+    <p class="lead">
+      <span class="lang-en"
+        >Master Hong Wu (红五) - The Red Five Card Game</span
+      >
+      <span class="lang-zh" style="display: none"
+        >掌握红五 (Hong Wu) - 红五纸牌游戏</span
+      >
+    </p>
+  </div>
+
+  <!-- Quick Reference -->
+  <div class="container">
+    <div class="quick-reference">
+      <h5>
+        <i class="fas fa-info-circle me-2"></i>
+        <span class="lang-en">Quick Reference</span>
+        <span class="lang-zh" style="display: none">快速参考</span>
+      </h5>
+      <div class="row">
+        <div class="col-md-3">
+          <strong>
+            <span class="lang-en">Players:</span>
+            <span class="lang-zh" style="display: none">玩家:</span>
+          </strong>
+          <span class="lang-en">3-5 (4 is standard)</span>
+          <span class="lang-zh" style="display: none">3-5人 (标准4人)</span>
+        </div>
+        <div class="col-md-3">
+          <strong>
+            <span class="lang-en">Deck:</span>
+            <span class="lang-zh" style="display: none">牌组:</span>
+          </strong>
+          <span class="lang-en">Standard 52 cards</span>
+          <span class="lang-zh" style="display: none">标准52张牌</span>
+        </div>
+        <div class="col-md-3">
+          <strong>
+            <span class="lang-en">Hand Size:</span>
+            <span class="lang-zh" style="display: none">手牌:</span>
+          </strong>
+          <span class="lang-en">Always 5 cards</span>
+          <span class="lang-zh" style="display: none">始终保持5张</span>
+        </div>
+        <div class="col-md-3">
+          <strong>
+            <span class="lang-en">Goal:</span>
+            <span class="lang-zh" style="display: none">目标:</span>
+          </strong>
+          <span class="lang-en">Empty your hand first</span>
+          <span class="lang-zh" style="display: none">率先出完手牌</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Hierarchy -->
+  <div class="container">
+    <div class="rule-card">
+      <h3>
+        <span class="rule-number">1</span>
+        <span class="lang-en">Card Power Hierarchy</span>
+        <span class="lang-zh" style="display: none">牌型等级</span>
+      </h3>
+      <p>
+        <span class="lang-en"
+          >The most important rule in Hong Wu is understanding card power. All
+          5s are special and outrank every other card.</span
+        >
+        <span class="lang-zh" style="display: none"
+          >红五最重要的规则是理解牌型等级。所有的5都是特殊的，等级高于其他所有牌。</span
+        >
+      </p>
+
+      <div class="card-hierarchy-table">
+        <h5 class="chinese-accent">
+          <span class="lang-en">Power Order (Lowest to Highest):</span>
+          <span class="lang-zh" style="display: none"
+            >等级顺序 (从低到高):</span
+          >
+        </h5>
+        <div class="row">
+          <div class="col-md-6">
+            <strong>
+              <span class="lang-en">Standard Cards:</span>
+              <span class="lang-zh" style="display: none"
+                >标准牌:</span
+              > </strong
+            ><br />
+            3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 < J < Q < K < A < 2
+          </div>
+          <div class="col-md-6">
+            <strong>
+              <span class="lang-en">Special 5s:</span>
+              <span class="lang-zh" style="display: none">特殊5:</span> </strong
+            ><br />
+            <span class="lang-en">5♣ < 5♠ < 5♦ < 5♥ (Red Five - highest)</span>
+            <span class="lang-zh" style="display: none"
+              >5♣ < 5♠ < 5♦ < 5♥ (红五 - 最高)</span
+            >
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <strong>
+            <span class="lang-en">Examples:</span>
+            <span class="lang-zh" style="display: none">示例:</span> </strong
+          ><br />
+          <span class="card-example clubs">5♣</span>
+          <span class="card-example spades">5♠</span>
+          <span class="card-example diamonds">5♦</span>
+          <span class="card-example hearts">5♥</span>
+          <span class="ms-3">
+            <span class="lang-en">(increasing power)</span>
+            <span class="lang-zh" style="display: none">(等级递增)</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Setup -->
+  <div class="container">
+    <div class="rule-card">
+      <h3>
+        <span class="rule-number">2</span>
+        <span class="lang-en">Game Setup</span>
+        <span class="lang-zh" style="display: none">游戏设置</span>
+      </h3>
+      <ol>
+        <li>
+          <strong>
+            <span class="lang-en">Shuffle</span>
+            <span class="lang-zh" style="display: none">洗牌</span>
+          </strong>
+          <span class="lang-en">a standard 52-card deck</span>
+          <span class="lang-zh" style="display: none">标准52张牌组</span>
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">Deal</span>
+            <span class="lang-zh" style="display: none">发牌</span>
+          </strong>
+          <span class="lang-en">5 cards to each player</span>
+          <span class="lang-zh" style="display: none">每人5张牌</span>
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">Determine first leader:</span>
+            <span class="lang-zh" style="display: none">确定首轮领导者:</span>
+          </strong>
+          <span class="lang-en"
+            >Each player reveals their highest single card. The owner of the
+            global highest card (usually 5♥) leads the first round</span
+          >
+          <span class="lang-zh" style="display: none"
+            >每位玩家展示自己最高等级的单张牌。拥有全局最高牌（通常是5♥）的玩家领导首轮</span
+          >
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">Place remaining cards</span>
+            <span class="lang-zh" style="display: none">放置剩余牌</span>
+          </strong>
+          <span class="lang-en">face-down as the draw pile</span>
+          <span class="lang-zh" style="display: none">面朝下作为抽牌堆</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Legal Play Categories -->
+  <div class="container">
+    <div class="rule-card">
+      <h3>
+        <span class="rule-number">3</span>
+        <span class="lang-en">Legal Play Categories</span>
+        <span class="lang-zh" style="display: none">合法出牌类型</span>
+      </h3>
+
+      <div class="combo-example">
+        <h6>
+          <i class="fas fa-circle me-2"></i>
+          <span class="lang-en">Single</span>
+          <span class="lang-zh" style="display: none">单张</span>
+        </h6>
+        <p>
+          <strong>
+            <span class="lang-en">Composition:</span>
+            <span class="lang-zh" style="display: none">组成:</span>
+          </strong>
+          <span class="lang-en">1 card</span>
+          <span class="lang-zh" style="display: none">1张牌</span><br />
+          <strong>
+            <span class="lang-en">Example:</span>
+            <span class="lang-zh" style="display: none">示例:</span>
+          </strong>
+          <span class="card-example hearts">5♥</span><br />
+          <strong>
+            <span class="lang-en">Ranking:</span>
+            <span class="lang-zh" style="display: none">等级:</span>
+          </strong>
+          <span class="lang-en">By card power hierarchy</span>
+          <span class="lang-zh" style="display: none">按牌型等级</span>
+        </p>
+      </div>
+
+      <div class="combo-example">
+        <h6>
+          <i class="fas fa-circle me-2"></i>
+          <span class="lang-en">Pair</span>
+          <span class="lang-zh" style="display: none">对子</span>
+        </h6>
+        <p>
+          <strong>
+            <span class="lang-en">Composition:</span>
+            <span class="lang-zh" style="display: none">组成:</span>
+          </strong>
+          <span class="lang-en">2 identical ranks</span>
+          <span class="lang-zh" style="display: none">2张相同点数</span><br />
+          <strong>
+            <span class="lang-en">Example:</span>
+            <span class="lang-zh" style="display: none">示例:</span>
+          </strong>
+          <span class="card-example clubs">8♣</span>
+          <span class="card-example diamonds">8♦</span><br />
+          <strong>
+            <span class="lang-en">Ranking:</span>
+            <span class="lang-zh" style="display: none">等级:</span>
+          </strong>
+          <span class="lang-en">Compare highest card of the pair</span>
+          <span class="lang-zh" style="display: none"
+            >比较对子中最高等级的牌</span
+          >
+        </p>
+      </div>
+
+      <div class="combo-example">
+        <h6>
+          <i class="fas fa-circle me-2"></i>
+          <span class="lang-en">Triple</span>
+          <span class="lang-zh" style="display: none">三张</span>
+        </h6>
+        <p>
+          <strong>
+            <span class="lang-en">Composition:</span>
+            <span class="lang-zh" style="display: none">组成:</span>
+          </strong>
+          <span class="lang-en">3 identical ranks</span>
+          <span class="lang-zh" style="display: none">3张相同点数</span><br />
+          <strong>
+            <span class="lang-en">Example:</span>
+            <span class="lang-zh" style="display: none">示例:</span>
+          </strong>
+          <span class="card-example clubs">4♣</span>
+          <span class="card-example diamonds">4♦</span>
+          <span class="card-example hearts">4♥</span><br />
+          <strong>
+            <span class="lang-en">Ranking:</span>
+            <span class="lang-zh" style="display: none">等级:</span>
+          </strong>
+          <span class="lang-en">Compare highest card of the triple</span>
+          <span class="lang-zh" style="display: none"
+            >比较三张中最高等级的牌</span
+          >
+        </p>
+      </div>
+
+      <div class="combo-example">
+        <h6>
+          <i class="fas fa-circle me-2"></i>
+          <span class="lang-en">Bomb (炸弹)</span>
+          <span class="lang-zh" style="display: none">炸弹</span>
+        </h6>
+        <p>
+          <strong>
+            <span class="lang-en">Composition:</span>
+            <span class="lang-zh" style="display: none">组成:</span>
+          </strong>
+          <span class="lang-en">4 identical ranks</span>
+          <span class="lang-zh" style="display: none">4张相同点数</span><br />
+          <strong>
+            <span class="lang-en">Example:</span>
+            <span class="lang-zh" style="display: none">示例:</span>
+          </strong>
+          <span class="card-example clubs">K♣</span>
+          <span class="card-example diamonds">K♦</span>
+          <span class="card-example hearts">K♥</span>
+          <span class="card-example spades">K♠</span><br />
+          <strong>
+            <span class="lang-en">Special:</span>
+            <span class="lang-zh" style="display: none">特殊:</span>
+          </strong>
+          <span class="lang-en"
+            >Beats anything and ends the round immediately!</span
+          >
+          <span class="lang-zh" style="display: none"
+            >击败任何牌型并立即结束本轮!</span
+          >
+        </p>
+      </div>
+
+      <div class="combo-example">
+        <h6>
+          <i class="fas fa-circle me-2"></i>
+          <span class="lang-en">Run / Straight</span>
+          <span class="lang-zh" style="display: none">顺子</span>
+        </h6>
+        <p>
+          <strong>
+            <span class="lang-en">Composition:</span>
+            <span class="lang-zh" style="display: none">组成:</span>
+          </strong>
+          <span class="lang-en">2+ consecutive ranks (no duplicates)</span>
+          <span class="lang-zh" style="display: none"
+            >2张以上连续点数（无重复）</span
+          ><br />
+          <strong>
+            <span class="lang-en">Example:</span>
+            <span class="lang-zh" style="display: none">示例:</span>
+          </strong>
+          <span class="card-example spades">9♠</span>
+          <span class="card-example diamonds">10♦</span>
+          <span class="lang-en">or</span>
+          <span class="lang-zh" style="display: none">或</span>
+          <span class="card-example diamonds">6♦</span>
+          <span class="card-example spades">7♠</span>
+          <span class="card-example clubs">8♣</span>
+          <span class="card-example hearts">9♥</span><br />
+          <strong>
+            <span class="lang-en">Important:</span>
+            <span class="lang-zh" style="display: none">重要:</span>
+          </strong>
+          <span class="lang-en">5s are never allowed in runs!</span>
+          <span class="lang-zh" style="display: none"
+            >5永远不能在顺子中使用!</span
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Two-Card Run Special Order -->
+  <div class="container">
+    <div class="rule-card">
+      <h3>
+        <span class="rule-number">4</span>
+        <span class="lang-en">Two-Card Run Special Order</span>
+        <span class="lang-zh" style="display: none">两张顺子特殊等级</span>
+      </h3>
+      <p>
+        <span class="lang-en"
+          >Two-card runs have their own special ranking system:</span
+        >
+        <span class="lang-zh" style="display: none"
+          >两张顺子有自己的特殊等级系统:</span
+        >
+      </p>
+
+      <div class="card-hierarchy-table">
+        <h6>
+          <span class="lang-en"
+            >Two-Card Run Power (Weakest to Strongest):</span
+          >
+          <span class="lang-zh" style="display: none"
+            >两张顺子等级（从弱到强）:</span
+          >
+        </h6>
+        <div class="row">
+          <div class="col-md-6">
+            <strong>
+              <span class="lang-en">Lowest:</span>
+              <span class="lang-zh" style="display: none">最低:</span>
+            </strong>
+            A-2<br />
+            <strong>
+              <span class="lang-en">Highest:</span>
+              <span class="lang-zh" style="display: none">最高:</span>
+            </strong>
+            K-A
+          </div>
+          <div class="col-md-6">
+            <strong>
+              <span class="lang-en">Examples:</span>
+              <span class="lang-zh" style="display: none">示例:</span> </strong
+            ><br />
+            A-2 < 2-3 < 3-4 < ... < Q-K < K-A
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <strong>
+            <span class="lang-en">Key Points:</span>
+            <span class="lang-zh" style="display: none">要点:</span>
+          </strong>
+          <ul>
+            <li>
+              <span class="lang-en"
+                >"Double ace-two" (A-2) is the weakest possible 2-card run</span
+              >
+              <span class="lang-zh" style="display: none"
+                >"双A-2" (A-2) 是最弱的两张顺子</span
+              >
+            </li>
+            <li>
+              <span class="lang-en"
+                >"King-ace" (K-A) is the strongest 2-card run</span
+              >
+              <span class="lang-zh" style="display: none"
+                >"K-A" (K-A) 是最强的两张顺子</span
+              >
+            </li>
+            <li>
+              <span class="lang-en"
+                >Runs of different lengths never compete</span
+              >
+              <span class="lang-zh" style="display: none"
+                >不同长度的顺子从不竞争</span
+              >
+            </li>
+            <li>
+              <span class="lang-en"
+                >Runs of length ≥3 follow normal rank order</span
+              >
+              <span class="lang-zh" style="display: none"
+                >长度≥3的顺子遵循正常等级顺序</span
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Turn Structure -->
+  <div class="container">
+    <div class="rule-card">
+      <h3>
+        <span class="rule-number">5</span>
+        <span class="lang-en">Turn & Round Structure</span>
+        <span class="lang-zh" style="display: none">回合与轮次结构</span>
+      </h3>
+
+      <h5>
+        <span class="lang-en">Basic Turn Rules:</span>
+        <span class="lang-zh" style="display: none">基本回合规则:</span>
+      </h5>
+      <ol>
+        <li>
+          <strong>
+            <span class="lang-en">Leader plays</span>
+            <span class="lang-zh" style="display: none">领导者出牌</span>
+          </strong>
+          <span class="lang-en">any legal combination</span>
+          <span class="lang-zh" style="display: none">任何合法组合</span>
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">Clockwise order:</span>
+            <span class="lang-zh" style="display: none">顺时针顺序:</span>
+          </strong>
+          <span class="lang-en">Each player must either:</span>
+          <span class="lang-zh" style="display: none">每位玩家必须:</span>
+          <ul>
+            <li>
+              <span class="lang-en"
+                >Play the same category at higher power, OR</span
+              >
+              <span class="lang-zh" style="display: none"
+                >出相同类型但等级更高的牌，或者</span
+              >
+            </li>
+            <li>
+              <span class="lang-en">Say "pass"</span>
+              <span class="lang-zh" style="display: none">说"过"</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">Bomb exception:</span>
+            <span class="lang-zh" style="display: none">炸弹例外:</span>
+          </strong>
+          <span class="lang-en"
+            >A bomb may be played at any moment and wins the round
+            immediately</span
+          >
+          <span class="lang-zh" style="display: none"
+            >炸弹可以在任何时候出牌并立即赢得本轮</span
+          >
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">Round ends</span>
+            <span class="lang-zh" style="display: none">轮次结束</span>
+          </strong>
+          <span class="lang-en"
+            >when all but one player have passed (or a bomb was played)</span
+          >
+          <span class="lang-zh" style="display: none"
+            >当除一名玩家外所有人都过牌时（或炸弹被出牌）</span
+          >
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">New leader:</span>
+            <span class="lang-zh" style="display: none">新领导者:</span>
+          </strong>
+          <span class="lang-en"
+            >The last successful player becomes the new leader</span
+          >
+          <span class="lang-zh" style="display: none"
+            >最后成功出牌的玩家成为新领导者</span
+          >
+        </li>
+      </ol>
+
+      <div class="strategy-tip">
+        <h6>
+          <i class="fas fa-lightbulb me-2"></i>
+          <span class="lang-en">Strategy Tip</span>
+          <span class="lang-zh" style="display: none">策略提示</span>
+        </h6>
+        <p>
+          <span class="lang-en"
+            >Bombs are extremely rare (~0.024% chance in a 5-card hand). Don't
+            wait for the perfect bomb - play aggressively early to control the
+            game flow.</span
+          >
+          <span class="lang-zh" style="display: none"
+            >炸弹极其罕见（5张手牌中约0.024%的概率）。不要等待完美的炸弹 -
+            早期积极出牌以控制游戏节奏。</span
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawing Phase -->
+  <div class="container">
+    <div class="rule-card">
+      <h3>
+        <span class="rule-number">6</span>
+        <span class="lang-en">Drawing Back to 5 Cards</span>
+        <span class="lang-zh" style="display: none">抽牌回到5张</span>
+      </h3>
+
+      <p>
+        <span class="lang-en"
+          >At the end of each round (if cards remain in the pile):</span
+        >
+        <span class="lang-zh" style="display: none"
+          >在每轮结束时（如果牌堆中还有牌）:</span
+        >
+      </p>
+      <ol>
+        <li>
+          <strong>
+            <span class="lang-en">Round winner draws first</span>
+            <span class="lang-zh" style="display: none">轮次获胜者先抽牌</span>
+          </strong>
+          <span class="lang-en">until holding 5 cards</span>
+          <span class="lang-zh" style="display: none">直到持有5张牌</span>
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">Others follow</span>
+            <span class="lang-zh" style="display: none">其他人跟随</span>
+          </strong>
+          <span class="lang-en"
+            >in the order they passed (earlier pass → earlier draw)</span
+          >
+          <span class="lang-zh" style="display: none"
+            >按过牌顺序（早过牌 → 早抽牌）</span
+          >
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">Pile exhaustion:</span>
+            <span class="lang-zh" style="display: none">牌堆耗尽:</span>
+          </strong>
+          <span class="lang-en"
+            >If the draw pile empties during this process, later drawers simply
+            take fewer cards</span
+          >
+          <span class="lang-zh" style="display: none"
+            >如果在此过程中抽牌堆耗尽，后抽牌者只需拿更少的牌</span
+          >
+        </li>
+      </ol>
+
+      <div class="strategy-tip">
+        <h6>
+          <i class="fas fa-clock me-2"></i>
+          <span class="lang-en">Strategic Insight</span>
+          <span class="lang-zh" style="display: none">策略洞察</span>
+        </h6>
+        <p>
+          <span class="lang-en"
+            >Passing early can be profitable as earlier passes draw earlier,
+            refreshing your hand with potentially stronger cards.</span
+          >
+          <span class="lang-zh" style="display: none"
+            >早期过牌可以是有利可图的，因为早期过牌会吸引早期，刷新你的手牌，有可能得到更强的牌。</span
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Game -->
+  <div class="container">
+    <div class="rule-card">
+      <h3>
+        <span class="rule-number">7</span>
+        <span class="lang-en">End of the Game</span>
+        <span class="lang-zh" style="display: none">游戏结束</span>
+      </h3>
+
+      <ul>
+        <li>
+          <strong>
+            <span class="lang-en">After the pile is gone:</span>
+            <span class="lang-zh" style="display: none">牌堆用完后:</span>
+          </strong>
+          <span class="lang-en">Play continues without drawing</span>
+          <span class="lang-zh" style="display: none">游戏继续但不再抽牌</span>
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">Winner:</span>
+            <span class="lang-zh" style="display: none">获胜者:</span>
+          </strong>
+          <span class="lang-en"
+            >The first player to shed every card wins immediately</span
+          >
+          <span class="lang-zh" style="display: none"
+            >第一个出完所有牌的玩家立即获胜</span
+          >
+        </li>
+        <li>
+          <strong>
+            <span class="lang-en">Optional scoring:</span>
+            <span class="lang-zh" style="display: none">可选计分:</span>
+          </strong>
+          <span class="lang-en"
+            >For multi-deal matches, you may score penalty points equal to the
+            losers' remaining cards</span
+          >
+          <span class="lang-zh" style="display: none"
+            >对于多局比赛，你可以获得等于失败者剩余牌数的惩罚分数</span
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Advanced Strategy -->
+  <div class="container">
+    <div class="rule-card">
+      <h3>
+        <span class="rule-number">8</span>
+        <span class="lang-en">Advanced Strategy</span>
+        <span class="lang-zh" style="display: none">高级策略</span>
+      </h3>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h5>
+            <i class="fas fa-heart text-danger me-2"></i>
+            <span class="lang-en">Five Cards Strategy</span>
+            <span class="lang-zh" style="display: none">五牌策略</span>
+          </h5>
+          <ul>
+            <li>
+              <span class="lang-en">Any five is good; two fives is gold</span>
+              <span class="lang-zh" style="display: none"
+                >任何五都是好的；两张五是黄金</span
+              >
+            </li>
+            <li>
+              <span class="lang-en">34% chance to start with ≥1 five</span>
+              <span class="lang-zh" style="display: none"
+                >34%的机会从≥1张五开始</span
+              >
+            </li>
+            <li>
+              <span class="lang-en">9.6% chance to have 5♥</span>
+              <span class="lang-zh" style="display: none"
+                >9.6%的机会拥有5♥</span
+              >
+            </li>
+            <li>
+              <span class="lang-en"
+                >Use fives strategically to control tempo</span
+              >
+              <span class="lang-zh" style="display: none"
+                >战略性地使用五来控制节奏</span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <h5>
+            <i class="fas fa-route text-info me-2"></i>
+            <span class="lang-en">Run Strategy</span>
+            <span class="lang-zh" style="display: none">顺子策略</span>
+          </h5>
+          <ul>
+            <li>
+              <span class="lang-en"
+                >Short runs matter - A-2 is lowest, 2-3 is second-lowest</span
+              >
+              <span class="lang-zh" style="display: none"
+                >短顺子很重要 - A-2最低，2-3第二低</span
+              >
+            </li>
+            <li>
+              <span class="lang-en"
+                >Mid-range runs (e.g., 9-10) often steal lead cheaply</span
+              >
+              <span class="lang-zh" style="display: none"
+                >中距离顺子（如9-10）通常以便宜的价格偷走领先</span
+              >
+            </li>
+            <li>
+              <span class="lang-en"
+                >Track visible triples - once three of a rank are seen, a bomb
+                is impossible</span
+              >
+              <span class="lang-zh" style="display: none"
+                >跟踪可见的三张 - 一旦看到某个点数的三张，炸弹就不可能了</span
+              >
+            </li>
+            <li>
+              <span class="lang-en">Runs never mix 5s</span>
+              <span class="lang-zh" style="display: none">顺子从不混合5</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="strategy-tip">
+        <h6>
+          <i class="fas fa-eye me-2"></i>
+          <span class="lang-en">Memory Strategy</span>
+          <span class="lang-zh" style="display: none">记忆策略</span>
+        </h6>
+        <p>
+          <span class="lang-en"
+            >Track which cards have been played, especially high-value cards and
+            5s. This helps you make informed decisions about when to play your
+            strong cards.</span
+          >
+          <span class="lang-zh" style="display: none"
+            >跟踪哪些牌已经出过，特别是高价值牌和5。这有助于你做出关于何时出强牌的明智决定。</span
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Common Mistakes -->
+  <div class="container">
+    <div class="rule-card">
+      <h3>
+        <span class="rule-number">9</span>
+        <span class="lang-en">Common Mistakes to Avoid</span>
+        <span class="lang-zh" style="display: none">要避免的常见错误</span>
+      </h3>
+
+      <div class="alert alert-warning">
+        <h6>
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          <span class="lang-en">Watch Out For:</span>
+          <span class="lang-zh" style="display: none">注意:</span>
+        </h6>
+        <ul>
+          <li>
+            <strong>
+              <span class="lang-en">Including 5s in runs:</span>
+              <span class="lang-zh" style="display: none">在顺子中包含5:</span>
+            </strong>
+            <span class="lang-en">5s are never allowed in any run</span>
+            <span class="lang-zh" style="display: none"
+              >5永远不允许在任何顺子中</span
+            >
+          </li>
+          <li>
+            <strong>
+              <span class="lang-en">Playing wrong category:</span>
+              <span class="lang-zh" style="display: none">出牌类型错误:</span>
+            </strong>
+            <span class="lang-en"
+              >You must play the same category as the previous play (unless
+              playing a bomb)</span
+            >
+            <span class="lang-zh" style="display: none"
+              >你必须出与前一局相同类型的牌（除非出炸弹）</span
+            >
+          </li>
+          <li>
+            <strong>
+              <span class="lang-en">Forgetting bomb power:</span>
+              <span class="lang-zh" style="display: none">忘记炸弹威力:</span>
+            </strong>
+            <span class="lang-en"
+              >Bombs beat everything and end the round immediately</span
+            >
+            <span class="lang-zh" style="display: none"
+              >炸弹击败一切并立即结束本轮</span
+            >
+          </li>
+          <li>
+            <strong>
+              <span class="lang-en">Ignoring draw order:</span>
+              <span class="lang-zh" style="display: none">忽略抽牌顺序:</span>
+            </strong>
+            <span class="lang-en"
+              >Round winner draws first, then others in pass order</span
+            >
+            <span class="lang-zh" style="display: none"
+              >轮次获胜者先抽牌，然后其他人按过牌顺序</span
+            >
+          </li>
+          <li>
+            <strong>
+              <span class="lang-en">Holding back too much:</span>
+              <span class="lang-zh" style="display: none">过于保守:</span>
+            </strong>
+            <span class="lang-en"
+              >Don't wait for perfect cards - tempo matters</span
+            >
+            <span class="lang-zh" style="display: none"
+              >不要等待完美的牌 - 节奏很重要</span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Reference Card -->
+  <div class="container">
+    <div class="rule-card">
+      <h3>
+        <span class="rule-number">10</span>
+        <span class="lang-en">Quick Reference Card</span>
+        <span class="lang-zh" style="display: none">快速参考卡</span>
+      </h3>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h6>
+            <span class="lang-en">Play Types:</span>
+            <span class="lang-zh" style="display: none">出牌类型:</span>
+          </h6>
+          <ul>
+            <li>
+              <strong>
+                <span class="lang-en">Single:</span>
+                <span class="lang-zh" style="display: none">单张:</span>
+              </strong>
+              <span class="lang-en">1 card</span>
+              <span class="lang-zh" style="display: none">1张牌</span>
+            </li>
+            <li>
+              <strong>
+                <span class="lang-en">Pair:</span>
+                <span class="lang-zh" style="display: none">对子:</span>
+              </strong>
+              <span class="lang-en">2 same rank</span>
+              <span class="lang-zh" style="display: none">2张相同点数</span>
+            </li>
+            <li>
+              <strong>
+                <span class="lang-en">Triple:</span>
+                <span class="lang-zh" style="display: none">三张:</span>
+              </strong>
+              <span class="lang-en">3 same rank</span>
+              <span class="lang-zh" style="display: none">3张相同点数</span>
+            </li>
+            <li>
+              <strong>
+                <span class="lang-en">Bomb:</span>
+                <span class="lang-zh" style="display: none">炸弹:</span>
+              </strong>
+              <span class="lang-en">4 same rank → beats anything</span>
+              <span class="lang-zh" style="display: none"
+                >4张相同点数 → 击败任何牌</span
+              >
+            </li>
+            <li>
+              <strong>
+                <span class="lang-en">Run:</span>
+                <span class="lang-zh" style="display: none">顺子:</span>
+              </strong>
+              <span class="lang-en">2+ consecutive ranks (no 5s)</span>
+              <span class="lang-zh" style="display: none"
+                >2张以上连续点数（无5）</span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <h6>
+            <span class="lang-en">Card Power (Singles):</span>
+            <span class="lang-zh" style="display: none">牌型等级（单张）:</span>
+          </h6>
+          <div style="font-family: monospace; font-size: 0.9em">
+            3 4 5 6 7 8 9 10 J Q K A 2 5♣ 5♠ 5♦ 5♥
+          </div>
+          <div class="mt-2">
+            <small class="text-muted">
+              <span class="lang-en"
+                >The four 5s outrank every other single</span
+              >
+              <span class="lang-zh" style="display: none"
+                >四个5等级高于其他所有单张</span
+              >
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

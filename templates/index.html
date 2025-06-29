@@ -1,0 +1,384 @@
+{% extends "base.html" %} {% block title %}Hong Wu (红五) - Red Five Card Game -
+Home{% endblock %} {% block extra_css %}
+<style>
+  .hero-cloud {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 4rem;
+    z-index: 1;
+    pointer-events: none;
+    animation: floatAcross 25s linear infinite;
+    transform: scaleX(-1);
+  }
+
+  .cloud-1 {
+    top: 15%;
+    left: -200px;
+    right: auto;
+    animation-delay: 0s;
+    font-size: 3.5rem;
+  }
+
+  .cloud-2 {
+    top: 35%;
+    left: -250px;
+    right: auto;
+    animation-delay: 2s;
+    font-size: 5rem;
+  }
+
+  .cloud-3 {
+    top: 55%;
+    left: -180px;
+    right: auto;
+    animation-delay: 4s;
+    font-size: 4.2rem;
+  }
+
+  .cloud-4 {
+    top: 25%;
+    left: -300px;
+    right: auto;
+    animation-delay: 6s;
+    font-size: 4.5rem;
+  }
+
+  .cloud-5 {
+    top: 65%;
+    left: -220px;
+    right: auto;
+    animation-delay: 8s;
+    font-size: 3.8rem;
+  }
+
+  .cloud-6 {
+    top: 45%;
+    left: -280px;
+    right: auto;
+    animation-delay: 10s;
+    font-size: 4.8rem;
+  }
+
+  .cloud-7 {
+    top: 75%;
+    left: -150px;
+    right: auto;
+    animation-delay: 12s;
+    font-size: 3.2rem;
+  }
+
+  .cloud-8 {
+    top: 20%;
+    left: -350px;
+    right: auto;
+    animation-delay: 14s;
+    font-size: 4rem;
+  }
+
+  @keyframes floatAcross {
+    0% {
+      transform: translateX(-100px) scaleX(-1);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.6;
+    }
+    90% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateX(calc(100vw + 100px)) scaleX(-1);
+      opacity: 0;
+    }
+  }
+
+  .hero-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section .container {
+    position: relative;
+    z-index: 2;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="hero-section text-center py-5">
+  <!-- Animated Clouds -->
+  <div class="hero-cloud cloud-1">☁</div>
+  <div class="hero-cloud cloud-2">☁</div>
+  <div class="hero-cloud cloud-3">☁</div>
+  <div class="hero-cloud cloud-4">☁</div>
+  <div class="hero-cloud cloud-5">☁</div>
+  <div class="hero-cloud cloud-6">☁</div>
+  <div class="hero-cloud cloud-7">☁</div>
+  <div class="hero-cloud cloud-8">☁</div>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <h1 class="chinese-title display-3 fw-bold mb-4">
+          <i class="fas fa-dragon me-3" style="color: #c41e3a"></i>Hong Wu
+          (红五)
+        </h1>
+        <p class="lead mb-4">
+          <span class="lang-en"
+            >The classic Chinese card game where the Red Five (5♥) reigns
+            supreme</span
+          >
+          <span class="lang-zh" style="display: none"
+            >体验经典的中国纸牌游戏，红五 (5♥) 至高无上！</span
+          >
+        </p>
+        <div class="hero-buttons">
+          <a href="{{ url_for('game') }}" class="chinese-btn btn-lg me-3 mb-2">
+            <i class="fas fa-play me-2"></i><span class="lang-en">Play Now</span
+            ><span class="lang-zh" style="display: none">开始游戏</span>
+          </a>
+          <a
+            href="{{ url_for('rules') }}"
+            class="btn btn-outline-light btn-lg mb-2"
+            style="border-color: #c41e3a; color: #c41e3a"
+          >
+            <i class="fas fa-book me-2"></i
+            ><span class="lang-en">Learn Rules</span
+            ><span class="lang-zh" style="display: none">学习规则</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="chinese-card h-100">
+        <div class="card-body text-center p-4">
+          <div class="feature-icon mb-3">
+            <i class="fas fa-gamepad fa-3x chinese-accent"></i>
+          </div>
+          <h4 class="card-title chinese-accent">
+            <span class="lang-en">Play Online</span>
+            <span class="lang-zh" style="display: none">在线游戏</span>
+          </h4>
+          <p class="card-text">
+            <span class="lang-en"
+              >Challenge AI opponents in this strategic card game. Experience
+              the thrill of playing bombs and runs!</span
+            >
+            <span class="lang-zh" style="display: none"
+              >挑战AI对手，体验这款策略性纸牌游戏。感受炸弹和顺子的刺激！</span
+            >
+          </p>
+          <a href="{{ url_for('game') }}" class="chinese-btn">
+            <span class="lang-en">Start Playing</span>
+            <span class="lang-zh" style="display: none">开始游戏</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="chinese-card h-100">
+        <div class="card-body text-center p-4">
+          <div class="feature-icon mb-3">
+            <i class="fas fa-chart-bar fa-3x chinese-accent"></i>
+          </div>
+          <h4 class="card-title chinese-accent">
+            <span class="lang-en">Probability Analysis</span>
+            <span class="lang-zh" style="display: none">概率分析</span>
+          </h4>
+          <p class="card-text">
+            <span class="lang-en"
+              >Explore the mathematics behind the game. Analyze win rates, card
+              distributions, and strategic insights.</span
+            >
+            <span class="lang-zh" style="display: none"
+              >探索游戏背后的数学原理。分析胜率、牌型分布和策略洞察。</span
+            >
+          </p>
+          <a href="{{ url_for('analysis') }}" class="chinese-btn">
+            <span class="lang-en">View Analysis</span>
+            <span class="lang-zh" style="display: none">查看分析</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="chinese-card h-100">
+        <div class="card-body text-center p-4">
+          <div class="feature-icon mb-3">
+            <i class="fas fa-book fa-3x chinese-accent"></i>
+          </div>
+          <h4 class="card-title chinese-accent">
+            <span class="lang-en">Complete Rules</span>
+            <span class="lang-zh" style="display: none">完整规则</span>
+          </h4>
+          <p class="card-text">
+            <span class="lang-en"
+              >Master the game with our comprehensive rulebook. Learn about card
+              hierarchy, combinations, and strategies.</span
+            >
+            <span class="lang-zh" style="display: none"
+              >通过我们的完整规则书掌握游戏。学习牌型等级、组合和策略。</span
+            >
+          </p>
+          <a href="{{ url_for('rules') }}" class="chinese-btn">
+            <span class="lang-en">Read Rules</span>
+            <span class="lang-zh" style="display: none">阅读规则</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chinese-section py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h2 class="chinese-title fw-bold mb-4">
+          <span class="lang-en">What is Hong Wu?</span>
+          <span class="lang-zh" style="display: none">什么是红五？</span>
+        </h2>
+        <div class="feature-list">
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-star chinese-accent me-3"></i>
+            <span class="lang-en">Strategic depth with simple rules</span>
+            <span class="lang-zh" style="display: none"
+              >规则简单但策略深奥</span
+            >
+          </div>
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-star chinese-accent me-3"></i>
+            <span class="lang-en">Fast-paced gameplay</span>
+            <span class="lang-zh" style="display: none">快节奏的游戏体验</span>
+          </div>
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-star chinese-accent me-3"></i>
+            <span class="lang-en">Perfect for 3-5 players</span>
+            <span class="lang-zh" style="display: none">适合3-5人游戏</span>
+          </div>
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-star chinese-accent me-3"></i>
+            <span class="lang-en">Unique card hierarchy system</span>
+            <span class="lang-zh" style="display: none"
+              >独特的牌型等级系统</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chinese-card p-4">
+          <h5 class="text-center mb-3 chinese-accent">
+            <span class="lang-en">Card Power Hierarchy</span>
+            <span class="lang-zh" style="display: none">牌型等级</span>
+          </h5>
+          <div class="card-power-display">
+            <div class="power-row mb-2">
+              <span class="power-label chinese-accent">
+                <span class="lang-en">Lowest:</span>
+                <span class="lang-zh" style="display: none">最低:</span>
+              </span>
+              <span class="card-display">3</span>
+            </div>
+            <div class="power-row mb-2">
+              <span class="power-label chinese-accent">
+                <span class="lang-en">Highest:</span>
+                <span class="lang-zh" style="display: none">最高:</span>
+              </span>
+              <span class="card-display">5♥</span>
+            </div>
+            <div class="power-row mb-2">
+              <span class="power-label chinese-accent">
+                <span class="lang-en">Special:</span>
+                <span class="lang-zh" style="display: none">特殊:</span>
+              </span>
+              <span class="card-display">
+                <span class="lang-en">Bombs beat everything!</span>
+                <span class="lang-zh" style="display: none"
+                  >炸弹击败一切！</span
+                >
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<script>
+  // Interactive shiny effect for hero section
+  document.addEventListener("DOMContentLoaded", function () {
+    const heroSection = document.querySelector(".hero-section");
+
+    if (heroSection) {
+      // Mouse move effect
+      heroSection.addEventListener("mousemove", function (e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+
+        // Update transform for the shine effect
+        const transformX = (xPercent - 50) * 2;
+        const transformY = (yPercent - 50) * 2;
+
+        this.style.setProperty("--shine-transform-x", transformX + "%");
+        this.style.setProperty("--shine-transform-y", transformY + "%");
+      });
+
+      // Scroll effect
+      let lastScrollY = window.scrollY;
+      let ticking = false;
+
+      function updateShineOnScroll() {
+        const scrollPercent =
+          (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
+          100;
+        const scrollTransform = scrollPercent * 0.5;
+
+        heroSection.style.setProperty("--scroll-shine", scrollTransform + "%");
+        ticking = false;
+      }
+
+      window.addEventListener("scroll", function () {
+        lastScrollY = window.scrollY;
+        if (!ticking) {
+          requestAnimationFrame(updateShineOnScroll);
+          ticking = true;
+        }
+      });
+
+      // Mouse leave effect
+      heroSection.addEventListener("mouseleave", function () {
+        this.style.setProperty("--shine-transform-x", "-100%");
+        this.style.setProperty("--shine-transform-y", "-100%");
+      });
+
+      // Add touch support for mobile devices
+      heroSection.addEventListener("touchmove", function (e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const rect = this.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+
+        const transformX = (xPercent - 50) * 2;
+        const transformY = (yPercent - 50) * 2;
+
+        this.style.setProperty("--shine-transform-x", transformX + "%");
+        this.style.setProperty("--shine-transform-y", transformY + "%");
+      });
+    }
+  });
+</script>

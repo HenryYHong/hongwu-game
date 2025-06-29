@@ -1,0 +1,731 @@
+{% extends "base.html" %} {% block title %}Probability Analysis - Hong Wu{%
+endblock %} {% block extra_css %}
+<style>
+  .analysis-section {
+    background: linear-gradient(135deg, var(--chinese-red) 0%, #a01830 100%);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px 0;
+    color: white;
+    border: 3px solid var(--chinese-gold);
+  }
+
+  .stat-card {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(248, 246, 241, 0.9) 100%
+    );
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    border: 2px solid var(--chinese-gold);
+    box-shadow: 0 8px 25px rgba(196, 30, 58, 0.15);
+  }
+
+  .chart-container {
+    background: linear-gradient(135deg, #fff 0%, var(--chinese-paper) 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 8px 25px rgba(196, 30, 58, 0.15);
+    border: 2px solid var(--chinese-gold);
+  }
+
+  .simulation-controls {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(248, 246, 241, 0.9) 100%
+    );
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    border: 2px solid var(--chinese-gold);
+    box-shadow: 0 8px 25px rgba(196, 30, 58, 0.15);
+  }
+
+  .probability-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+  }
+
+  .probability-item {
+    background: linear-gradient(
+      135deg,
+      rgba(196, 30, 58, 0.1) 0%,
+      rgba(212, 175, 55, 0.1) 100%
+    );
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid var(--chinese-gold);
+    transition: all 0.3s ease;
+  }
+
+  .probability-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(196, 30, 58, 0.2);
+  }
+
+  .probability-value {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--chinese-red);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .probability-label {
+    font-size: 1em;
+    color: var(--chinese-ink);
+    font-weight: 500;
+    margin-top: 10px;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--chinese-red);
+  }
+
+  .loading i {
+    font-size: 2em;
+    animation: spin 1s linear infinite;
+    color: var(--chinese-gold);
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .form-select,
+  .form-control {
+    border: 2px solid var(--chinese-gold);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .form-select:focus,
+  .form-control:focus {
+    border-color: var(--chinese-red);
+    box-shadow: 0 0 0 0.2rem rgba(196, 30, 58, 0.25);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--chinese-red) 0%, #a01830 100%);
+    border: 2px solid var(--chinese-gold);
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #a01830 0%, var(--chinese-red) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(196, 30, 58, 0.4);
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="container-fluid">
+  <!-- Header Section -->
+  <div class="analysis-section text-center">
+    <h1 class="display-4 fw-bold mb-4">
+      <i class="fas fa-dragon me-3"></i>
+      <span class="lang-en">Probability Analysis</span>
+      <span class="lang-zh" style="display: none">概率分析</span>
+    </h1>
+    <p class="lead">
+      <span class="lang-en"
+        >Explore the mathematics behind Hong Wu and discover strategic insights
+        through data analysis.</span
+      >
+      <span class="lang-zh" style="display: none"
+        >探索红五背后的数学原理，通过数据分析发现策略洞察。</span
+      >
+    </p>
+  </div>
+
+  <!-- Quick Probability Overview -->
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="stat-card">
+          <h3 class="mb-4 chinese-accent">
+            <i class="fas fa-percentage me-2"></i>
+            <span class="lang-en">Key Probabilities</span>
+            <span class="lang-zh" style="display: none">关键概率</span>
+          </h3>
+          <div class="probability-grid" id="probability-grid">
+            <div class="loading">
+              <i class="fas fa-spinner"></i>
+              <p>
+                <span class="lang-en">Loading probabilities...</span>
+                <span class="lang-zh" style="display: none">加载概率中...</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulation Section -->
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="simulation-controls">
+          <h3 class="mb-4 chinese-accent">
+            <i class="fas fa-dice me-2"></i>
+            <span class="lang-en">Game Simulation</span>
+            <span class="lang-zh" style="display: none">游戏模拟</span>
+          </h3>
+          <div class="row">
+            <div class="col-md-4">
+              <label for="simGames" class="form-label chinese-accent">
+                <span class="lang-en">Number of Games:</span>
+                <span class="lang-zh" style="display: none">游戏数量:</span>
+              </label>
+              <select class="form-select" id="simGames">
+                <option value="100">
+                  <span class="lang-en">100 Games</span>
+                  <span class="lang-zh" style="display: none">100局</span>
+                </option>
+                <option value="500">
+                  <span class="lang-en">500 Games</span>
+                  <span class="lang-zh" style="display: none">500局</span>
+                </option>
+                <option value="1000" selected>
+                  <span class="lang-en">1,000 Games</span>
+                  <span class="lang-zh" style="display: none">1,000局</span>
+                </option>
+                <option value="5000">
+                  <span class="lang-en">5,000 Games</span>
+                  <span class="lang-zh" style="display: none">5,000局</span>
+                </option>
+                <option value="10000">
+                  <span class="lang-en">10,000 Games</span>
+                  <span class="lang-zh" style="display: none">10,000局</span>
+                </option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="simPlayers" class="form-label chinese-accent">
+                <span class="lang-en">Number of Players:</span>
+                <span class="lang-zh" style="display: none">玩家数量:</span>
+              </label>
+              <select class="form-select" id="simPlayers">
+                <option value="3">
+                  <span class="lang-en">3 Players</span>
+                  <span class="lang-zh" style="display: none">3人</span>
+                </option>
+                <option value="4" selected>
+                  <span class="lang-en">4 Players</span>
+                  <span class="lang-zh" style="display: none">4人</span>
+                </option>
+                <option value="5">
+                  <span class="lang-en">5 Players</span>
+                  <span class="lang-zh" style="display: none">5人</span>
+                </option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">&nbsp;</label>
+              <button class="btn btn-primary w-100" onclick="runSimulation()">
+                <i class="fas fa-play me-2"></i>
+                <span class="lang-en">Run Simulation</span>
+                <span class="lang-zh" style="display: none">运行模拟</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulation Results -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h4 class="mb-3 chinese-accent">
+            <span class="lang-en">Win Distribution</span>
+            <span class="lang-zh" style="display: none">胜率分布</span>
+          </h4>
+          <canvas id="winChart" width="400" height="300"></canvas>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chart-container">
+          <h4 class="mb-3 chinese-accent">
+            <span class="lang-en">Game Statistics</span>
+            <span class="lang-zh" style="display: none">游戏统计</span>
+          </h4>
+          <div id="gameStats">
+            <div class="loading">
+              <i class="fas fa-spinner"></i>
+              <p>
+                <span class="lang-en">Run a simulation to see statistics</span>
+                <span class="lang-zh" style="display: none"
+                  >运行模拟以查看统计</span
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strategic Insights -->
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="stat-card">
+          <h3 class="mb-4 chinese-accent">
+            <i class="fas fa-lightbulb me-2"></i>
+            <span class="lang-en">Strategic Insights</span>
+            <span class="lang-zh" style="display: none">策略洞察</span>
+          </h3>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-4">
+                <h5>
+                  <i class="fas fa-star chinese-accent me-2"></i>
+                  <span class="lang-en">Early Tempo Strategy</span>
+                  <span class="lang-zh" style="display: none"
+                    >早期节奏策略</span
+                  >
+                </h5>
+                <p>
+                  <span class="lang-en"
+                    >Bombs are extremely rare (~0.024% chance in a 5-card hand).
+                    Don't wait for the perfect bomb - play aggressively early to
+                    control the game flow.</span
+                  >
+                  <span class="lang-zh" style="display: none"
+                    >炸弹极其罕见（5张手牌中约0.024%的概率）。不要等待完美的炸弹
+                    - 早期积极出牌以控制游戏节奏。</span
+                  >
+                </p>
+              </div>
+              <div class="mb-4">
+                <h5>
+                  <i class="fas fa-heart chinese-accent me-2"></i>
+                  <span class="lang-en">Five Cards are Gold</span>
+                  <span class="lang-zh" style="display: none">五牌是黄金</span>
+                </h5>
+                <p>
+                  <span class="lang-en"
+                    >You have a 34% chance to start with at least one five, and
+                    a 9.6% chance to have the Red Five (5♥). Any five gives you
+                    significant advantage.</span
+                  >
+                  <span class="lang-zh" style="display: none"
+                    >你有34%的机会从五张牌中至少得到一张，有9.6%的机会得到红五（5♥）。任何五张牌都能给你带来显著的优势。</span
+                  >
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-4">
+                <h5>
+                  <i class="fas fa-route chinese-accent me-2"></i>
+                  <span class="lang-en">Run Strategy</span>
+                  <span class="lang-zh" style="display: none">顺子策略</span>
+                </h5>
+                <p>
+                  <span class="lang-en"
+                    >Two-card runs are common and powerful. A-2 is the weakest
+                    run, while K-A is the strongest. Mid-range runs (like 9-10)
+                    often steal the lead cheaply.</span
+                  >
+                  <span class="lang-zh" style="display: none"
+                    >两张牌的顺子很常见且强大。A-2是最弱的顺子，而K-A是最强的。中距离顺子（如9-10）通常以便宜的价格偷走领先。</span
+                  >
+                </p>
+              </div>
+              <div class="mb-4">
+                <h5>
+                  <i class="fas fa-clock chinese-accent me-2"></i>
+                  <span class="lang-en">Passing Strategy</span>
+                  <span class="lang-zh" style="display: none">过牌策略</span>
+                </h5>
+                <p>
+                  <span class="lang-en"
+                    >Passing early can be profitable as earlier passes draw
+                    earlier, refreshing your hand with potentially stronger
+                    cards.</span
+                  >
+                  <span class="lang-zh" style="display: none"
+                    >早期过牌可以是有利可图的，因为早期过牌会吸引早期，刷新你的手牌，有可能得到更强的牌。</span
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Hierarchy Analysis -->
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="chart-container">
+          <h4 class="mb-3">
+            <span class="lang-en">Card Power Analysis</span>
+            <span class="lang-zh" style="display: none">牌型等级分析</span>
+          </h4>
+          <div class="row">
+            <div class="col-md-8">
+              <canvas id="cardPowerChart" width="600" height="400"></canvas>
+            </div>
+            <div class="col-md-4">
+              <div class="mt-3">
+                <h6>
+                  <span class="lang-en">Card Power Hierarchy:</span>
+                  <span class="lang-zh" style="display: none">牌型等级:</span>
+                </h6>
+                <div class="card-hierarchy-list">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>3</span>
+                    <span class="text-muted">
+                      <span class="lang-en">Lowest</span>
+                      <span class="lang-zh" style="display: none">最低</span>
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>...</span>
+                    <span class="text-muted">
+                      <span class="lang-en">Standard ranks</span>
+                      <span class="lang-zh" style="display: none"
+                        >标准等级</span
+                      >
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>2</span>
+                    <span class="text-muted">
+                      <span class="lang-en">High</span>
+                      <span class="lang-zh" style="display: none">高</span>
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>5♣</span>
+                    <span class="text-danger">
+                      <span class="lang-en">Special</span>
+                      <span class="lang-zh" style="display: none">特殊</span>
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>5♠</span>
+                    <span class="text-danger">
+                      <span class="lang-en">Special</span>
+                      <span class="lang-zh" style="display: none">特殊</span>
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>5♦</span>
+                    <span class="text-danger">
+                      <span class="lang-en">Special</span>
+                      <span class="lang-zh" style="display: none">特殊</span>
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>5♥</span>
+                    <span class="text-danger fw-bold">
+                      <span class="lang-en">Highest</span>
+                      <span class="lang-zh" style="display: none">最高</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  let winChart = null;
+  let cardPowerChart = null;
+
+  // Load initial probabilities
+  document.addEventListener("DOMContentLoaded", function () {
+    loadProbabilities();
+    initializeCardPowerChart();
+  });
+
+  function loadProbabilities() {
+    fetch("/api/probability_analysis")
+      .then((response) => response.json())
+      .then((data) => {
+        displayProbabilities(data);
+      })
+      .catch((error) => {
+        console.error("Error loading probabilities:", error);
+        document.getElementById("probability-grid").innerHTML =
+          '<div class="text-danger">Error loading probabilities</div>';
+      });
+  }
+
+  function displayProbabilities(data) {
+    const grid = document.getElementById("probability-grid");
+    const isChinese = document.documentElement.lang === "zh";
+
+    grid.innerHTML = `
+        <div class="probability-item">
+            <div class="probability-value">${data.at_least_one_five}%</div>
+            <div class="probability-label">
+              <span class="lang-en">At least one 5</span>
+              <span class="lang-zh" style="display: none;">至少一张5</span>
+            </div>
+        </div>
+        <div class="probability-item">
+            <div class="probability-value">${data.five_hearts}%</div>
+            <div class="probability-label">
+              <span class="lang-en">Red Five (5♥)</span>
+              <span class="lang-zh" style="display: none;">红五 (5♥)</span>
+            </div>
+        </div>
+        <div class="probability-item">
+            <div class="probability-value">${data.bomb}%</div>
+            <div class="probability-label">
+              <span class="lang-en">Bomb in hand</span>
+              <span class="lang-zh" style="display: none;">手中有炸弹</span>
+            </div>
+        </div>
+        <div class="probability-item">
+            <div class="probability-value">${data.run_3_plus}</div>
+            <div class="probability-label">
+              <span class="lang-en">Run of 3+ cards</span>
+              <span class="lang-zh" style="display: none;">3张以上顺子</span>
+            </div>
+        </div>
+    `;
+  }
+
+  function runSimulation() {
+    const nGames = parseInt(document.getElementById("simGames").value);
+    const nPlayers = parseInt(document.getElementById("simPlayers").value);
+
+    // Show loading
+    document.getElementById("gameStats").innerHTML = `
+        <div class="loading">
+            <i class="fas fa-spinner"></i>
+            <p>
+              <span class="lang-en">Running simulation...</span>
+              <span class="lang-zh" style="display: none;">运行模拟中...</span>
+            </p>
+        </div>
+    `;
+
+    fetch("/api/simulate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        n_games: nGames,
+        n_players: nPlayers,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        displaySimulationResults(data);
+        updateWinChart(data);
+      })
+      .catch((error) => {
+        console.error("Error running simulation:", error);
+        document.getElementById("gameStats").innerHTML = `
+          <div class="text-danger">
+            <span class="lang-en">Error running simulation</span>
+            <span class="lang-zh" style="display: none;">运行模拟时出错</span>
+          </div>
+        `;
+      });
+  }
+
+  function displaySimulationResults(data) {
+    const statsDiv = document.getElementById("gameStats");
+    statsDiv.innerHTML = `
+        <div class="row">
+            <div class="col-6">
+                <div class="text-center mb-3">
+                    <h5>
+                      <span class="lang-en">Average Game Length</span>
+                      <span class="lang-zh" style="display: none;">平均游戏长度</span>
+                    </h5>
+                    <h3 class="text-primary">${data.avg_game_length} 
+                      <span class="lang-en">rounds</span>
+                      <span class="lang-zh" style="display: none;">轮</span>
+                    </h3>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="text-center mb-3">
+                    <h5>
+                      <span class="lang-en">Bomb Rate</span>
+                      <span class="lang-zh" style="display: none;">炸弹率</span>
+                    </h5>
+                    <h3 class="text-danger">${(data.bomb_rate * 100).toFixed(
+                      2
+                    )}%</h3>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <h6>
+              <span class="lang-en">Win Percentages:</span>
+              <span class="lang-zh" style="display: none;">胜率:</span>
+            </h6>
+            ${data.win_percentages
+              .map(
+                (pct, idx) => `
+                <div class="d-flex justify-content-between mb-1">
+                    <span>
+                      <span class="lang-en">Player ${idx}:</span>
+                      <span class="lang-zh" style="display: none;">玩家 ${idx}:</span>
+                    </span>
+                    <span class="fw-bold">${pct}%</span>
+                </div>
+            `
+              )
+              .join("")}
+        </div>
+    `;
+  }
+
+  function updateWinChart(data) {
+    const ctx = document.getElementById("winChart").getContext("2d");
+
+    if (winChart) {
+      winChart.destroy();
+    }
+
+    const isChinese = document.documentElement.lang === "zh";
+    const playerLabels = data.win_percentages.map((_, idx) =>
+      isChinese ? `玩家 ${idx}` : `Player ${idx}`
+    );
+
+    winChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: playerLabels,
+        datasets: [
+          {
+            label: isChinese ? "胜率" : "Win Percentage",
+            data: data.win_percentages,
+            backgroundColor: [
+              "#dc3545",
+              "#fd7e14",
+              "#ffc107",
+              "#28a745",
+              "#17a2b8",
+            ],
+            borderColor: [
+              "#c82333",
+              "#e55a00",
+              "#e0a800",
+              "#1e7e34",
+              "#138496",
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              callback: function (value) {
+                return value + "%";
+              },
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+    });
+  }
+
+  function initializeCardPowerChart() {
+    const ctx = document.getElementById("cardPowerChart").getContext("2d");
+
+    const cardPowers = [
+      { rank: "3", power: 0 },
+      { rank: "4", power: 1 },
+      { rank: "5", power: 2 },
+      { rank: "6", power: 3 },
+      { rank: "7", power: 4 },
+      { rank: "8", power: 5 },
+      { rank: "9", power: 6 },
+      { rank: "10", power: 7 },
+      { rank: "J", power: 8 },
+      { rank: "Q", power: 9 },
+      { rank: "K", power: 10 },
+      { rank: "A", power: 11 },
+      { rank: "2", power: 12 },
+      { rank: "5♣", power: 101 },
+      { rank: "5♠", power: 102 },
+      { rank: "5♦", power: 103 },
+      { rank: "5♥", power: 104 },
+    ];
+
+    const isChinese = document.documentElement.lang === "zh";
+
+    cardPowerChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: cardPowers.map((c) => c.rank),
+        datasets: [
+          {
+            label: isChinese ? "牌型等级" : "Card Power",
+            data: cardPowers.map((c) => c.power),
+            borderColor: "#dc3545",
+            backgroundColor: "rgba(220, 53, 69, 0.1)",
+            borderWidth: 3,
+            fill: true,
+            tension: 0.1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: isChinese ? "牌型等级分析" : "Card Power Hierarchy",
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: isChinese ? "等级" : "Power Level",
+            },
+          },
+        },
+      },
+    });
+  }
+</script>
+{% endblock %}

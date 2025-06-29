@@ -1,0 +1,356 @@
+/* Hong Wu Card Game - Custom Styles */
+
+/* Global Styles */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #f7dc6f 0%, #b8860b 50%, #f7dc6f 100%);
+  color: white;
+  border-radius: 15px;
+  margin: 20px 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  --shine-transform-x: -100%;
+  --shine-transform-y: -100%;
+  --scroll-shine: 0%;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 70%
+  );
+  transform: translateX(var(--shine-transform-x))
+    translateY(var(--shine-transform-y));
+  transition: transform 0.1s ease-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 20%,
+    transparent 80%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  transform: translateY(calc(var(--scroll-shine) * 0.1));
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 3;
+}
+
+.hero-buttons .btn {
+  transition: transform 0.3s ease;
+}
+
+.hero-buttons .btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Feature Cards */
+.feature-icon {
+  color: #dc3545;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .feature-icon {
+  transform: scale(1.1);
+}
+
+/* Card Styling */
+.card-back {
+  background-color: #8b0000; /* Fallback dark red color */
+  background-image: url("/static/images/redcard.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid #2c3e50;
+  position: relative;
+  min-height: 80px; /* Ensure minimum height */
+  min-width: 60px; /* Ensure minimum width */
+}
+
+.card-back::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* Game Interface */
+.game-container {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.player-area {
+  transition: all 0.3s ease;
+}
+
+.player-area:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Animations */
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.card.selected {
+  transform: translateY(-15px) scale(1.1);
+  box-shadow: 0 12px 30px rgba(220, 53, 69, 0.6);
+  border-color: #dc3545;
+  background: linear-gradient(45deg, #fff, #ffe6e6);
+}
+
+/* Analysis Charts */
+.chart-container {
+  transition: transform 0.3s ease;
+}
+
+.chart-container:hover {
+  transform: translateY(-5px);
+}
+
+/* Probability Items */
+.probability-item {
+  transition: all 0.3s ease;
+}
+
+.probability-item:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Rules Styling */
+.rule-card {
+  transition: all 0.3s ease;
+}
+
+.rule-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-example {
+  transition: transform 0.2s ease;
+}
+
+.card-example:hover {
+  transform: scale(1.1);
+}
+
+/* Navigation */
+.navbar {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* Buttons */
+.btn-game {
+  transition: all 0.3s ease;
+}
+
+.btn-game:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading Animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading i {
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .card {
+    width: 50px;
+    height: 70px;
+    font-size: 0.8em;
+  }
+
+  .probability-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .card {
+    width: 45px;
+    height: 60px;
+    font-size: 0.7em;
+  }
+
+  .btn-game {
+    min-width: 100px;
+    font-size: 0.9em;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dc3545;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c82333;
+}
+
+/* Card Suit Colors */
+.hearts,
+.diamonds {
+  color: #dc3545;
+}
+
+.clubs,
+.spades {
+  color: #000;
+}
+
+/* Game Status Animations */
+.game-status {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Feature List Styling */
+.feature-list .d-flex {
+  transition: transform 0.2s ease;
+}
+
+.feature-list .d-flex:hover {
+  transform: translateX(5px);
+}
+
+/* Card Hierarchy Display */
+.card-power-display .power-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-power-display .power-row:last-child {
+  border-bottom: none;
+}
+
+.card-display {
+  font-weight: bold;
+  color: var(--chinese-gold);
+}
+
+/* Strategy Tips */
+.strategy-tip {
+  animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Footer Styling */
+footer {
+  margin-top: auto;
+}
+
+/* Print Styles */
+@media print {
+  .navbar,
+  .btn,
+  .controls {
+    display: none !important;
+  }
+
+  .rule-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}

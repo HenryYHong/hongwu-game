@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}Hong Wu (红五) - Red Five Card Game{% endblock %}
+    </title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='css/style.css') }}"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --chinese-red: #c41e3a;
+        --chinese-gold: #d4af37;
+        --chinese-jade: #4a7c59;
+        --chinese-ink: #1a1a1a;
+        --chinese-paper: #f8f6f1;
+        --chinese-bronze: #cd7f32;
+      }
+
+      body {
+        font-family: "Noto Serif SC", serif;
+        background: linear-gradient(
+          135deg,
+          var(--chinese-paper) 0%,
+          #f0ede5 100%
+        );
+        color: var(--chinese-ink);
+      }
+
+      .navbar {
+        background: linear-gradient(
+          135deg,
+          var(--chinese-red) 0%,
+          #a01830 100%
+        ) !important;
+        border-bottom: 3px solid var(--chinese-gold);
+        box-shadow: 0 4px 15px rgba(196, 30, 58, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .navbar::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          var(--chinese-gold) 20%,
+          var(--chinese-gold) 80%,
+          transparent 100%
+        );
+        z-index: 1;
+      }
+
+      .navbar::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          var(--chinese-gold) 20%,
+          var(--chinese-gold) 80%,
+          transparent 100%
+        );
+        z-index: 1;
+        display: none; /* Temporarily hide to test */
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        color: var(--chinese-gold) !important;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        font-size: 1.5rem;
+        position: relative;
+        padding: 8px 15px;
+        border-radius: 8px;
+        background: rgba(212, 175, 55, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .navbar-brand:hover {
+        background: rgba(212, 175, 55, 0.2);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+      }
+
+      .navbar-brand::before {
+        content: "❖";
+        position: absolute;
+        left: -5px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--chinese-gold);
+        font-size: 0.8rem;
+        opacity: 0.7;
+      }
+
+      .navbar-brand::after {
+        content: "❖";
+        position: absolute;
+        right: -5px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--chinese-gold);
+        font-size: 0.8rem;
+        opacity: 0.7;
+      }
+
+      .nav-link {
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 8px 16px !important;
+        margin: 0 4px;
+        border-radius: 6px;
+      }
+
+      .nav-link::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background: var(--chinese-gold);
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover {
+        color: var(--chinese-gold) !important;
+        transform: translateY(-2px);
+        background: rgba(212, 175, 55, 0.1);
+      }
+
+      .nav-link:hover::before {
+        width: 80%;
+      }
+
+      .nav-link.active {
+        color: var(--chinese-gold) !important;
+        font-weight: 600;
+        background: rgba(212, 175, 55, 0.15);
+      }
+
+      .nav-link.active::before {
+        width: 80%;
+      }
+
+      .navbar-nav {
+        position: relative;
+      }
+
+      .navbar-nav::before {
+        display: none;
+      }
+
+      .navbar-nav::after {
+        display: none;
+      }
+
+      .btn-outline-light {
+        border: 2px solid var(--chinese-gold);
+        color: var(--chinese-gold);
+        background: rgba(212, 175, 55, 0.1);
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 6px 16px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-outline-light::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(212, 175, 55, 0.2),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .btn-outline-light:hover {
+        background: var(--chinese-gold);
+        color: var(--chinese-red);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+      }
+
+      .btn-outline-light:hover::before {
+        left: 100%;
+      }
+
+      .navbar-toggler {
+        border: 2px solid var(--chinese-gold);
+        border-radius: 8px;
+        padding: 4px 8px;
+      }
+
+      .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+      }
+
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(212, 175, 55, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
+
+      footer {
+        background: linear-gradient(
+          135deg,
+          var(--chinese-ink) 0%,
+          #2a2a2a 100%
+        ) !important;
+        border-top: 3px solid var(--chinese-gold);
+      }
+
+      .chinese-card {
+        background: linear-gradient(135deg, #fff 0%, var(--chinese-paper) 100%);
+        border: 2px solid var(--chinese-gold);
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(196, 30, 58, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .chinese-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(196, 30, 58, 0.25);
+      }
+
+      .chinese-btn {
+        background: linear-gradient(
+          135deg,
+          var(--chinese-red) 0%,
+          #a01830 100%
+        );
+        border: 2px solid var(--chinese-gold);
+        color: white;
+        font-weight: 600;
+        border-radius: 25px;
+        padding: 12px 30px;
+        transition: all 0.3s ease;
+      }
+
+      .chinese-btn:hover {
+        background: linear-gradient(
+          135deg,
+          #a01830 0%,
+          var(--chinese-red) 100%
+        );
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(196, 30, 58, 0.4);
+        color: white;
+      }
+
+      .chinese-title {
+        color: var(--chinese-red);
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        border-bottom: 3px solid var(--chinese-gold);
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+      }
+
+      .chinese-accent {
+        color: var(--chinese-gold);
+        font-weight: 600;
+      }
+
+      .chinese-section {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 20px;
+        padding: 30px;
+        margin: 20px 0;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .chinese-cloud {
+        position: absolute;
+        color: var(--chinese-gold);
+        font-size: 1.2rem;
+        opacity: 0.6;
+        animation: float 3s ease-in-out infinite;
+        z-index: 2;
+      }
+
+      .left-cloud {
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        animation-delay: 0s;
+      }
+
+      .right-cloud {
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        animation-delay: 1.5s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(-50%) translateX(0px);
+        }
+        50% {
+          transform: translateY(-50%) translateX(5px);
+        }
+      }
+
+      /* Additional Chinese decorative elements */
+      .navbar .container::before {
+        content: "❋";
+        position: absolute;
+        left: 50%;
+        top: -5px;
+        transform: translateX(-50%);
+        color: var(--chinese-gold);
+        font-size: 1rem;
+        opacity: 0.8;
+        z-index: 3;
+      }
+
+      .navbar .container::after {
+        content: "❋";
+        position: absolute;
+        left: 50%;
+        bottom: -5px;
+        transform: translateX(-50%);
+        color: var(--chinese-gold);
+        font-size: 1rem;
+        opacity: 0.8;
+        z-index: 3;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 991.98px) {
+        .chinese-cloud {
+          display: none;
+        }
+
+        .navbar .container::before,
+        .navbar .container::after {
+          display: none;
+        }
+
+        .navbar-nav::before,
+        .navbar-nav::after {
+          display: none;
+        }
+      }
+
+      html,
+      body {
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container position-relative">
+        <!-- Decorative cloud patterns -->
+        <div class="chinese-cloud left-cloud">☁</div>
+        <div class="chinese-cloud right-cloud">☁</div>
+
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+          <i class="fas fa-dragon me-2"></i>Hong Wu (红五)
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">
+                <i class="fas fa-home me-1"></i><span class="lang-en">Home</span
+                ><span class="lang-zh" style="display: none">首页</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('game') }}">
+                <i class="fas fa-gamepad me-1"></i
+                ><span class="lang-en">Play Game</span
+                ><span class="lang-zh" style="display: none">游戏</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('analysis') }}">
+                <i class="fas fa-chart-bar me-1"></i
+                ><span class="lang-en">Analysis</span
+                ><span class="lang-zh" style="display: none">分析</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('rules') }}">
+                <i class="fas fa-book me-1"></i
+                ><span class="lang-en">Rules</span
+                ><span class="lang-zh" style="display: none">规则</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <button
+                class="btn btn-outline-light btn-sm ms-2"
+                onclick="toggleLanguage()"
+                id="langToggle"
+              >
+                <i class="fas fa-language me-1"></i
+                ><span class="lang-en">中文</span
+                ><span class="lang-zh" style="display: none">English</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container-fluid py-4">{% block content %}{% endblock %}</main>
+
+    <footer class="text-light py-4 mt-5">
+      <div class="container text-center">
+        <p class="mb-0">
+          <i class="fas fa-dragon chinese-accent me-1"></i>
+          <span class="lang-en">Hong Wu (红五) - The Red Five Card Game</span>
+          <span class="lang-zh" style="display: none"
+            >红五 (Hong Wu) - 红五纸牌游戏</span
+          >
+          <span class="ms-2 chinese-accent">|</span>
+          <span class="ms-2">
+            <span class="lang-en"
+              >Built with <i class="fas fa-heart chinese-accent"></i> and Python
+              Flask</span
+            >
+            <span class="lang-zh" style="display: none"
+              >用 <i class="fas fa-heart chinese-accent"></i> 和 Python Flask
+              构建</span
+            >
+          </span>
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Language toggle functionality
+      let currentLanguage = "en";
+
+      function toggleLanguage() {
+        const langEnElements = document.querySelectorAll(".lang-en");
+        const langZhElements = document.querySelectorAll(".lang-zh");
+        const langToggle = document.getElementById("langToggle");
+
+        if (currentLanguage === "en") {
+          // Switch to Chinese
+          langEnElements.forEach((el) => (el.style.display = "none"));
+          langZhElements.forEach((el) => (el.style.display = "inline"));
+          currentLanguage = "zh";
+          langToggle.querySelector(".lang-en").textContent = "English";
+          langToggle.querySelector(".lang-zh").textContent = "English";
+        } else {
+          // Switch to English
+          langEnElements.forEach((el) => (el.style.display = "inline"));
+          langZhElements.forEach((el) => (el.style.display = "none"));
+          currentLanguage = "en";
+          langToggle.querySelector(".lang-en").textContent = "中文";
+          langToggle.querySelector(".lang-zh").textContent = "中文";
+        }
+
+        // Store preference in localStorage
+        localStorage.setItem("hongwu-language", currentLanguage);
+      }
+
+      // Load saved language preference on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        const savedLanguage = localStorage.getItem("hongwu-language");
+        if (savedLanguage === "zh") {
+          toggleLanguage();
+        }
+      });
+    </script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

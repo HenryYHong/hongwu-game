@@ -118,10 +118,7 @@ class Player:
                     if beats(cards, prev): moves.append(cards)
         # runs
         if len(hand) >= 2:
-            # For runs, we need to use RANK_ORDER.index for consecutiveness
-            # but still allow 5s to be included
             uniq = sorted(set(hand), key=lambda c: RANK_ORDER.index(rank(c)))
-            # sliding window for consecutiveness using RANK_ORDER.index
             run = []
             for i,card_ in enumerate(uniq):
                 if not run or RANK_ORDER.index(rank(card_)) == RANK_ORDER.index(rank(run[-1]))+1:
@@ -133,10 +130,17 @@ class Player:
                         candidate = run[-L:]
                         if beats(candidate, prev):
                             moves.append(candidate)
-        # starting round: any move allowed
         if prev is None:
             moves += self.starter_moves()
-        return moves
+        # Remove duplicates
+        unique_moves = []
+        seen = set()
+        for move in moves:
+            move_tuple = tuple(sorted(move))
+            if move_tuple not in seen:
+                seen.add(move_tuple)
+                unique_moves.append(move)
+        return unique_moves
     def starter_moves(self):
         # any legal combo from hand
         moves=[]
@@ -174,13 +178,14 @@ class Player:
                 except Exception:
                     pass
                 print("Invalid play – try again.")
-        # AI: 20% random legal move, 80% best move
         moves = self.legal_moves(prev)
         if not moves:
             return None
+        # AI: 20% random legal move, 80% prioritize lowest cards
         if random.random() < 0.2:
             return random.choice(moves)
-        return min(moves, key=lambda m: (combo_type(m) != 'bomb', len(m), card_power(max(m, key=card_power))))
+        # Always prioritize getting rid of the lowest cards possible
+        return min(moves, key=lambda m: (min(card_power(c) for c in m), -len(m)))
     # ------------------------------------------------------------------------------
     def remove_cards(self, cards):
         for c in cards:

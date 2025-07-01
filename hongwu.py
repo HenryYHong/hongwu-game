@@ -53,7 +53,22 @@ def run_power(cards):
     """Calculate the power of a run for comparison purposes."""
     ranks = [rank(c) for c in cards]
     n = len(ranks)
-    # Check for consecutiveness in the order played, with A-2 as consecutive
+    # Check for consecutiveness in any order for two-card runs
+    if n == 2:
+        sorted_ranks = sorted(ranks, key=lambda r: RANK_ORDER.index(r))
+        # Special case: A-2 is always weakest
+        if set(sorted_ranks) == set(['A', '2']):
+            return 0
+        # Special case: K-A (or A-K) is always strongest
+        if set(sorted_ranks) == set(['K', 'A']):
+            return 12
+        # Otherwise, check for any consecutive pair
+        idx0 = RANK_ORDER.index(sorted_ranks[0])
+        idx1 = RANK_ORDER.index(sorted_ranks[1])
+        if (idx1 == (idx0 + 1) % len(RANK_ORDER)):
+            return idx0 + 1  # A-2 is already handled
+        return -1  # Not a valid run
+    # For longer runs, check for consecutiveness in the order played, with A-2 as consecutive
     for i in range(n - 1):
         curr_idx = RANK_ORDER.index(ranks[i])
         next_idx = RANK_ORDER.index(ranks[i+1])
